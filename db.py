@@ -13,20 +13,28 @@ class MedicineDB:
     def _create_questions_db(self):
         """Создание таблицы вопросов"""
         self.c.execute(
-            '''CREATE TABLE IF NOT EXISTS questions (id INTEGER PRIMARY KEY, description TEXT NOT NULL, costs REAL NOT 
-            NULL, cart TEXT)''')
+            '''CREATE TABLE IF NOT EXISTS questions 
+            (id INTEGER PRIMARY KEY,
+             description TEXT NOT NULL, 
+             costs REAL NOT NULL, 
+             cart TEXT)''')
         self.conn.commit()
 
     def _create_users_db(self):
         """Создание таблицы юзеров"""
-        self.c.execute('''CREATE TABLE IF NOT EXISTS users (username TEXT NOT NULL PRIMARY KEY,password TEXT NOT NULL, 
+        self.c.execute('''CREATE TABLE IF NOT EXISTS users
+         (username TEXT NOT NULL PRIMARY KEY,
+         password TEXT NOT NULL, 
                 role TEXT NOT NULL);''')
         self.conn.commit()
 
     def _create_orders_db(self):
         """Создание таблицы заказов"""
-        self.c.execute('''CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY, username TEXT NOT NULL, 
-                goods_ids TEXT NOT NULL, score REAL NOT NULL, state TEXT NOT NULL);''')
+        self.c.execute('''CREATE TABLE IF NOT EXISTS orders
+         (id INTEGER PRIMARY KEY, username TEXT NOT NULL, 
+                         goods_ids TEXT NOT NULL, 
+                         score REAL NOT NULL, 
+                         state TEXT NOT NULL);''')
         self.conn.commit()
 
 
@@ -34,7 +42,7 @@ class QuestionsDB(MedicineDB):
     """Таблица вопросов"""
     def __init__(self):
         super().__init__()
-        self.clean_cart_db()    # При первой инициации в сессии очистка состояний корзины
+        self.clean_cart_db()    # При первой инициации в сессии очистка состояний
 
     def insert_data_db(self, description, cost):
         """Добавление вопроса в бд"""
@@ -47,7 +55,7 @@ class QuestionsDB(MedicineDB):
         self.c.execute('''UPDATE questions SET description=?, costs=? WHERE ID=?''', (description, cost, sel_id))
         self.conn.commit()
 
-    def add_to_cart_db(self, sel_id):
+    def add_to_yes_db(self, sel_id):
         """Смена статуса на \"Да\" в бд"""
         self.c.execute('''UPDATE questions SET cart=? WHERE ID=?''', ('Да', sel_id))
         self.conn.commit()
@@ -143,4 +151,3 @@ class TestDB(MedicineDB):
         """Удаление записи вопроса из бд"""
         self.c.execute('''DELETE FROM orders WHERE id=?''', (order_id,))
         self.conn.commit()
-        print(order_id, ' order deld')

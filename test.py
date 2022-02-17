@@ -107,7 +107,7 @@ class AddToTestFrame(DelFrame):
 
     def ok_button(self):
         self.btn_ok = ttk.Button(self, text='Да')
-        self.btn_ok.bind('<Button-1>', lambda event: [self.db.add_to_cart_db(self.sel_id),
+        self.btn_ok.bind('<Button-1>', lambda event: [self.db.add_to_yes_db(self.sel_id),
                                                       self.destroy()])
 
 
